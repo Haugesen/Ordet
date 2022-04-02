@@ -10,7 +10,7 @@ let word = '';
 let charLimit;
 
 // Define number of tries for current game
-const tries = 5;
+const tries = 6;
 
 let triedWords = [];
 let fullEval   = []; 
@@ -22,6 +22,7 @@ let currentGame;
 
 let currChar = 0;
 let currTry  = 0;
+let blockedChars = [];
 
 if(localStorage.getItem('lsCleared')){
     console.log('all good')
@@ -32,6 +33,7 @@ if(localStorage.getItem('lsCleared')){
 
 if(localStorage.getItem('allGames')){
     fillStats();
+    $('#stats-btn').show();
 }
 
 if(localStorage.getItem('thisGame')){
@@ -287,10 +289,11 @@ function fillBoardFromLocalS(g, charLimit){
         });
         for (var j = 0; j < storedTries[i].length; j++){
             $(newdiv).append('<div class="char-block '+storedTries[i][j]+'">'+storedWords[i][j]+'</div>'); 
+            if(storedTries[i][j] == 'neutral') blockedChars.push(storedWords[i][j])
         }
         $('#game').append(newdiv);
     }
-    // Fill rest of board
+    // Fill rest of board with empty blocks
     for (var i = 0; i < tries - storedTries.length; i++) {
         var newdiv = $('<div/>', {
             "class": "char-line"
@@ -299,6 +302,15 @@ function fillBoardFromLocalS(g, charLimit){
            $(newdiv).append('<div class="char-block"></div>'); 
         }
         $('#game').append(newdiv);
+    }
+    
+    // Block keys that have been used
+    for(var i = 0; i < blockedChars.length; i++){
+        $('.key').each(function( index ) {
+          if($(this).text() == blockedChars[i]){
+              $(this).addClass('blocked');
+          }
+        });
     }
 }
 
@@ -318,12 +330,20 @@ $('html, body, #game').click(function(e){
 })
 
 $('#stats-btn').click(function(e){
+    $(this).toggleClass('active');
     $('#stats').toggle();
-    if($('#how-to').is(':visible')) $('#how-to').hide()
+    if($('#how-to').is(':visible')){
+        $('#how-to').hide()
+        $('#how-to-btn').removeClass('active');
+    }
 })
 $('#how-to-btn').click(function(e){
+    $(this).toggleClass('active');
     $('#how-to').toggle();
-    if($('#stats').is(':visible')) $('#stats').hide()
+    if($('#stats').is(':visible')){
+        $('#stats').hide()
+        $('#stats-btn').removeClass('active');
+    }
 })
 
 
@@ -336,7 +356,6 @@ function fillStats(){
         $('#your-stats').append('<div class="stat-item"><span class="stat-word">' + stats[i].word + '</span><span class="stat-tries">' + stats[i].tries + '</span><span class="stat-date">' + stats[i].date + '</span></div>')
     }
 }
-
 
 
 

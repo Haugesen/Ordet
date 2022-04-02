@@ -373,8 +373,14 @@ h1#game-title{
     background-image: url(graphics/how-to.svg);
 }
 #stats-btn{
+    display: none;
     background-size: 28px;
     background-image: url(graphics/stats.svg);
+}
+
+#how-to-btn.active, #stats-btn.active{
+    background-size: 22px;
+    background-image: url(graphics/close.svg);
 }
 .nav-btn:hover{
     border: 1px solid white;
@@ -451,7 +457,7 @@ h1#game-title{
         border: 1px solid #1c1c27;
     }
     .key:hover{
-        background: #1c1c27;
+        background: #232331;
     }
     #enter, #backspace{
         width: 66px;
