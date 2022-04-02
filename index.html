@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wordl</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="app.css">
+</head>
+
+<body>
+    <div class="wrapper">
+<!--
+        <div id="nav">
+            <button class="nav-btn" id="how-to">Slik spiller du</button>
+            <button class="nav-btn" id="stats">Statistikk</button>
+        </div>
+-->
+<!--
+        <div id="your-stats">
+            <div id="tries">Antall forsøk: <span id="your-tries">0</span>/<span id="max-tries">5</span></div>
+        </div>
+-->
+        <div id="overlay"><div id="msg"></div></div>
+        <div id="game">
+            <div id="game-tip"></div>
+            <div class="curr-line"></div>
+        </div>
+        <div id="keyboard">
+            <div class="line">
+                <div class="key char-key">Q</div>
+                <div class="key char-key">W</div>
+                <div class="key char-key">E</div>
+                <div class="key char-key">R</div>
+                <div class="key char-key">T</div>
+                <div class="key char-key">Y</div>
+                <div class="key char-key">U</div>
+                <div class="key char-key">I</div>
+                <div class="key char-key">O</div>
+                <div class="key char-key">P</div>
+                <div class="key char-key">Å</div>
+            </div>
+            <div class="line">
+                <div class="key char-key">A</div>
+                <div class="key char-key">S</div>
+                <div class="key char-key">D</div>
+                <div class="key char-key">F</div>
+                <div class="key char-key">G</div>
+                <div class="key char-key">H</div>
+                <div class="key char-key">J</div>
+                <div class="key char-key">K</div>
+                <div class="key char-key">L</div>
+                <div class="key char-key">Ø</div>
+                <div class="key char-key">Æ</div>
+            </div>
+            <div class="line">
+                <div class="key" id="enter">ENTER</div>
+                <div class="key char-key">Z</div>
+                <div class="key char-key">X</div>
+                <div class="key char-key">C</div>
+                <div class="key char-key">V</div>
+                <div class="key char-key">B</div>
+                <div class="key char-key">N</div>
+                <div class="key char-key">M</div>
+                <div class="key" id="backspace">BACKSPACE</div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="5-letter-words.js"></script>
+    <script src="words.js"></script>
+    <script src="helpers.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
