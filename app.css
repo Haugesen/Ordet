@@ -354,7 +354,7 @@ h1#game-title{
         margin-right: 10px;
     }
     .key{
-        width: 30px;
+        width: 33px;
         height: 50px;
         font-size: 13px;
         border: 1px solid #1c1c27;
@@ -363,8 +363,8 @@ h1#game-title{
         background: #2a2d33;
     }
     #enter, #backspace{
-        width: 60px;
-        font-size: 8px;
+        width: 66px;
+        font-size: 9px;
     }
     
     .char-block.correct-pos::before, .char-block.correct-char::before{
