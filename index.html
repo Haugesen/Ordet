@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wordl</title>
+    <title>Ordet</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -12,17 +12,30 @@
 
 <body>
     <div class="wrapper">
-<!--
         <div id="nav">
-            <button class="nav-btn" id="how-to">Slik spiller du</button>
-            <button class="nav-btn" id="stats">Statistikk</button>
+            <button class="nav-btn" id="how-to-btn"></button>
+            <button class="nav-btn" id="stats-btn"></button>
         </div>
--->
-<!--
-        <div id="your-stats">
-            <div id="tries">Antall forsøk: <span id="your-tries">0</span>/<span id="max-tries">5</span></div>
+        <div id="how-to">
+            <h2>Slik spiller du</h2>
+            <p>Gjett dagens ord på seks eller færre forsøk.<br>Hvert forsøk må bestå av et <span class="underline">norskt ord på 5 bokstaver.</span>.</p>
+            <p>Forsøk som inneholder bokstaver som <span class="underline">ikke</span> er i løsningsordet blir utilgjengelig til neste forsøk. </p>
+            <p><strong>Blå farge:</strong> Indikerer riktig bokstav, men feil plassering. Ordet kan inneholde en eller flere av denne bokstaven.</p>
+            <p><strong>Grønn farge:</strong> Indikerer riktig bokstav OG riktig plassering av bokstav. Ordet kan inneholde en eller flere av denne bokstaven.</p>
+            <p>Trykk på <strong>"Slett"</strong> for å slette bokstav fra bokstavraden.</p>
+            <p>Trykk på <strong>"Sjekk ord"</strong> for å sjekke om ordet er riktig.</p>
         </div>
--->
+        <div id="stats">
+            <h2>Statistikk og resultater</h2>
+<!--            <div id="best-results">Antall ord klart på første forsøk: <span id="your-best-results"></span></div>-->
+            <div class="stats-headers">
+                <div class="stat-head">Ord</div>
+                <div class="stat-head">Forsøk</div>
+                <div class="stat-head">Dato</div>
+            </div>
+            <div id="your-stats">
+            </div>
+        </div>
         <div id="overlay"><div id="msg"></div></div>
         <div id="game">
             <div id="game-tip"></div>
@@ -56,7 +69,7 @@
                 <div class="key char-key">Æ</div>
             </div>
             <div class="line">
-                <div class="key" id="enter">SJEKK ORD</div>
+                <div class="key" id="enter">SJEKK</div>
                 <div class="key char-key">Z</div>
                 <div class="key char-key">X</div>
                 <div class="key char-key">C</div>

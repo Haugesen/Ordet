@@ -1,12 +1,5 @@
 /////////////////////////////////////////////////////
 ///                                               ///
-///     ORIGINAL IDEA IS "WORDLE" BY NY-TIMES     ///
-///                                               ///
-///     This game utilize localStorage in         ///
-///     order to keep track of boardstate         ///
-///     and game progression.                     ///
-///                                               ///
-///     Created by: Joachim Hauge                 ///
 ///                                               ///
 /////////////////////////////////////////////////////
 
@@ -20,26 +13,44 @@ let charLimit;
 const tries = 5;
 
 let triedWords = [];
-let fullEval = []; 
+let fullEval   = []; 
 
 let wholeLineIsFilled = false;
-let gameTipVisible = false; 
-var gameWon = undefined;
+let gameTipVisible    = false; 
+let gameWon           = undefined;
+let currentGame;
 
 let currChar = 0;
-let currTry = 0;
+let currTry  = 0;
+
+if(localStorage.getItem('lsCleared')){
+    console.log('all good')
+} else {
+    localStorage.clear();
+    localStorage.setItem('lsCleared', 'done');
+}
+
+if(localStorage.getItem('allGames')){
+    fillStats();
+}
 
 if(localStorage.getItem('thisGame')){
-    var currentGame = localStorage.getItem('thisGame'),
-        currentGame = JSON.parse(currentGame);
     
-    currWord = currentGame.word;
-    word = currWord.toUpperCase();
-    currTry = currentGame.tries;
+    currentGame = localStorage.getItem('thisGame'),
+    currentGame = JSON.parse(currentGame);
+    fullEval    = currentGame.evals;
+    
+    for(var i = 0; i < currentGame.state.length; i++){
+        triedWords.push(currentGame.state[i])
+    }
+    
+    savedTries = currentGame.tries;
+    currWord   = currentGame.word;
+    word       = currWord.toUpperCase();
+    currTry    = currentGame.tries;
+    charLimit  = word.length;
+    
     moveCurrLine(currTry);
-//    $('#your-tries').text(currTry);
-    charLimit = word.length;
-    
     fillBoardFromLocalS(currentGame, charLimit);
 } else {
     currWord = listOfWords[Math.floor(Math.random() * listOfWords.length)];
@@ -48,8 +59,7 @@ if(localStorage.getItem('thisGame')){
     
     fillBoardFromScratch();
 }
-
-console.log(currWord)
+//console.log(currWord)
 
 // Handle character click
 $('.char-key').click(function(e){
@@ -71,10 +81,9 @@ function checkKey(key, val){
 
 function checkTry(){
     if(lineIsFilled(currTry)){
-        
         if(checkIfIsWord(currTry)){
+            let lineEvaluation = [];
             
-            var lineEvaluation = []
             var tryWord = '';
 //            $('#your-tries').text(currTry+1);
             $('.char-line').eq(currTry).find('.char-block').each(function(i){
@@ -96,12 +105,13 @@ function checkTry(){
                 }
 
                 lineEvaluation.push(evaluation)
+                console.log(lineEvaluation);
             })
             if(tryWord == word){
                 gameWon = true;
                 $('.curr-line').addClass('winner-line');
                 setTimeout(function() {
-                    $('#msg').text('Gratulerer! Du klarte dagens ord: ' + word)
+                    $('#msg').text('Gratulerer! Du klarte dagens ord: ' + word + '. Refresh siden for nytt ord.')
                     $('#overlay').addClass('show');
                 }, 2000);
             } else {
@@ -128,7 +138,6 @@ function checkTry(){
         } else {
             $('.curr-line').addClass('not-a-word-line');
         }
-        
     }
 }
 
@@ -174,14 +183,12 @@ $('#tyty').click(function(e){
     $('#overlay').removeClass('show');
 })
 
-
 // Function for moving the current line (highligting word line)
 function moveCurrLine(currLine){
     var lineHeight = $('.curr-line').outerHeight();
     var newPos = lineHeight * currLine;
     $('.curr-line').css('top', newPos + 'px');
 }
-
 // Handle click on character block
 $('.char-block').click(function(e){
     e.stopPropagation();
@@ -218,25 +225,24 @@ function hideGameTip(){
     gameTipVisible = false; 
 }
 
-
 function saveToLocalS(cw, ct, state, evals, w){
     
-    var cw = cw,
-        ct = evals.length,
-        state = state,
-        evals = evals,
-        w = w;
+    let currentw = cw,
+        currentt = evals.length,
+        currentstate = state,
+        currentevals = evals,
+        wol = w;
     
-    var thisGame = { 
-        'word': cw, 
-        'tries': ct,
-        'state': state,
-        'evals': evals,
-        'won': w,
+    let thisGame = { 
+        'word': currentw, 
+        'tries': currentt,
+        'state': currentstate,
+        'evals': currentevals,
+        'won': wol,
         'date': getFormattedDate()
     };
     
-    var allGames = [];
+    let allGames = [];
     
     // If game is started (atleast one word tried) - do this:
     if(w == undefined){
@@ -274,7 +280,7 @@ function fillBoardFromScratch(){
 function fillBoardFromLocalS(g, charLimit){
     var storedTries = g.evals; 
     var storedWords = g.state;
-    // First fill board with words from stored tries
+    // Fill board with words from stored tries
     for (var i = 0; i < storedTries.length; i++){
         var newdiv = $('<div/>', {
             "class": "char-line"
@@ -284,7 +290,7 @@ function fillBoardFromLocalS(g, charLimit){
         }
         $('#game').append(newdiv);
     }
-    // First rest of board
+    // Fill rest of board
     for (var i = 0; i < tries - storedTries.length; i++) {
         var newdiv = $('<div/>', {
             "class": "char-line"
@@ -310,6 +316,35 @@ function checkIfIsWord(currTry){
 $('html, body, #game').click(function(e){
     hideGameTip();
 })
+
+$('#stats-btn').click(function(e){
+    $('#stats').toggle();
+    if($('#how-to').is(':visible')) $('#how-to').hide()
+})
+$('#how-to-btn').click(function(e){
+    $('#how-to').toggle();
+    if($('#stats').is(':visible')) $('#stats').hide()
+})
+
+
+
+function fillStats(){
+    let stats = localStorage.getItem('allGames');
+        stats = JSON.parse(stats);
+    
+    for(var i = 0; i < stats.length; i++){
+        $('#your-stats').append('<div class="stat-item"><span class="stat-word">' + stats[i].word + '</span><span class="stat-tries">' + stats[i].tries + '</span><span class="stat-date">' + stats[i].date + '</span></div>')
+    }
+}
+
+
+
+
+
+
+
+
+
 
 
 
